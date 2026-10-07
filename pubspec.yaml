@@ -1,0 +1,32 @@
+name: eid_icao
+description: >-
+  Reads ICAO 9303 passports and identity cards over any eid transport: BAC
+  and PACE, MRZ, face image and data groups, with Passive, Chip and Active
+  Authentication.
+version: 0.1.0
+homepage: https://packages.comapps.be/#eid_icao
+repository: https://github.com/raphrmx/eid_icao
+issue_tracker: https://github.com/raphrmx/eid_icao/issues
+funding:
+  - https://www.paypal.com/donate/?hosted_button_id=ZN6D382YQAV5N
+topics:
+  - eid
+  - icao
+  - passport
+  - mrz
+  - smartcard
+screenshots:
+  - description: Which packages to add for a Belgian card or a passport, the key each needs and what the read gives back.
+    path: screenshots/situations.png
+
+environment:
+  sdk: ^3.3.0
+
+dependencies:
+  crypto: ^3.0.7
+  eid: ^0.1.1
+  pointycastle: ^4.0.0
+
+dev_dependencies:
+  lint: ^2.8.0
+  test: ^1.25.7

@@ -1,0 +1,3 @@
+# Keep LF on every checkout, Windows included, so `dart format` and the CI diff
+# never see a line ending change.
+* text=auto eol=lf

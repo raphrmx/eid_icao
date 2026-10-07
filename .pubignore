@@ -1,0 +1,13 @@
+.dart_tool/
+.github/
+.idea/
+.vscode/
+build/
+doc/api/
+pubspec.lock
+
+# Points eid at the sibling checkout while both are developed together.
+pubspec_overrides.yaml
+
+# Builds the OpenSSL fixtures of the tests.
+tool/
