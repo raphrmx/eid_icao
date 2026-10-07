@@ -183,7 +183,14 @@ final class SimulatedIcaoChip
 
     if (tamperedGroup != null && groups[tamperedGroup] != null) {
       final file = Uint8List.fromList(groups[tamperedGroup]!);
-      file[file.length - 1] ^= 0x01;
+      if (tamperedGroup == IcaoDataGroup.dg1) {
+        // A letter of the name rewritten, so that the MRZ still reads: only
+        // its signature gives it away.
+        final at = file.lastIndexWhere((b) => b >= 0x41 && b <= 0x5A);
+        file[at] = 0x41 + (file[at] - 0x41 + 1) % 26;
+      } else {
+        file[file.length - 1] ^= 0x01;
+      }
       groups[tamperedGroup] = file;
     }
 

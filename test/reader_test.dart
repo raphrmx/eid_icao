@@ -224,6 +224,14 @@ void main() {
       expect(unchecked.authenticity, isNull);
     });
 
+    test('turns down an MRZ rewritten after signing', () async {
+      final chip = SimulatedIcaoChip(tamperedGroup: IcaoDataGroup.dg1);
+      await expectLater(
+        IcaoReader(chip).read(access: chip.canKey),
+        _rejectedFor(IcaoRejection.signature),
+      );
+    });
+
     test('turns down a document no trusted CSCA signed', () async {
       final chip = SimulatedIcaoChip();
       await expectLater(

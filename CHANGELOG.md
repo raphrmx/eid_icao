@@ -1,3 +1,10 @@
+## 0.1.1
+
+- `SimulatedIcaoChip(tamperedGroup: IcaoDataGroup.dg1)` rewrites a letter
+  of the name, so that the read is turned down for its signature
+  (`IcaoRejection.signature`) instead of failing on an MRZ that does not
+  parse.
+
 ## 0.1.0
 
 - First release: reads ICAO 9303 passports and identity cards over any
