@@ -3,7 +3,7 @@ description: >-
   Reads ICAO 9303 passports and identity cards over any eid transport: BAC
   and PACE, MRZ, face image and data groups, with Passive, Chip and Active
   Authentication.
-version: 0.1.1
+version: 0.1.2
 homepage: https://packages.comapps.be/#eid_icao
 repository: https://github.com/raphrmx/eid_icao
 issue_tracker: https://github.com/raphrmx/eid_icao/issues

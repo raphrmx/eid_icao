@@ -1,3 +1,12 @@
+## 0.1.2
+
+- `package:eid_icao/mrz_scanner.dart` reads the machine readable zone in
+  the frames of a camera or in a photo, in pure Dart, for the BAC and PACE
+  key: `MrzScanner` gives the zone once two frames agree, `MrzRecognizer`
+  reads one image, `MrzImage` takes a luminance plane as a camera gives it,
+  or RGBA and BGRA pixels. TD1, TD2 and TD3, slanted, turned a little or
+  upside down. Nothing changes for an application that does not import it.
+
 ## 0.1.1
 
 - `SimulatedIcaoChip(tamperedGroup: IcaoDataGroup.dg1)` rewrites a letter

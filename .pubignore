@@ -9,5 +9,6 @@ pubspec.lock
 # Points eid at the sibling checkout while both are developed together.
 pubspec_overrides.yaml
 
-# Builds the OpenSSL fixtures of the tests.
+# Builds the OpenSSL fixtures of the tests, the OCR-B templates and the
+# classifier of the MRZ scanner.
 tool/

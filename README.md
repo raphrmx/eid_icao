@@ -20,6 +20,7 @@ pure Dart, over any `eid` transport.
 - Checks that the issuing state signed the data (Passive Authentication)
   and that the chip is not a copy (Chip Authentication, Chip Authentication
   Mapping or Active Authentication).
+- Reads the MRZ in the frames of a camera, for the key, in pure Dart.
 - Gives the photo as JPEG or PNG, ready to show: JPEG 2000, which most
   identity cards use, is decoded in pure Dart.
 
@@ -76,6 +77,60 @@ PACE is used when the chip offers it, BAC otherwise. Identity cards issued
 since 2021 open with PACE only; older passports with BAC only, from the MRZ.
 A key the chip refuses throws an `IcaoAccessException` whose `reason` is
 `wrongKey`.
+
+## Scan the MRZ with a camera
+
+Rather than having the document number and the dates typed,
+`package:eid_icao/mrz_scanner.dart` reads them in the frames of a camera, in
+pure Dart: no native code, no machine learning library, nothing to
+download. The OCR-B characters are matched against their templates, the
+check digits put a near tie right (0 and O, 8 and B), and a zone is given
+once two frames read it the same.
+
+```dart
+import 'package:eid_icao/mrz_scanner.dart';
+
+final scanner = MrzScanner();
+
+// For each frame of the camera, its luminance plane:
+final result = scanner.add(MrzImage.luminance(
+  width: width,
+  height: height,
+  bytes: luminance,
+  rotation: MrzRotation.clockwise90, // as a phone's camera sees it
+));
+if (result != null) {
+  await IcaoReader(transport).read(access: result.accessKey);
+}
+```
+
+In Flutter, [universal_barcode_scanner](https://pub.dev/packages/universal_barcode_scanner)
+hands its camera frames over on Android, iOS, macOS, Windows, Linux and the
+web:
+
+```dart
+UniversalBarcodeScanner(
+  scanFormat: ScanFormat.none,
+  continuous: true,
+  onFrame: (ScanFrame frame) {
+    final result = scanner.add(MrzImage.luminance(
+      width: frame.width,
+      height: frame.height,
+      bytes: frame.bytes,
+      rotation: MrzRotation.values[frame.quarterTurns],
+    ));
+    if (result != null) Navigator.pop(context, result.accessKey);
+  },
+  onCreated: (ScannerController controller) {},
+);
+```
+
+TD1 (identity cards), TD2 and TD3 (passports) are read, slanted, turned a
+little or upside down, the long document numbers of Belgian cards included.
+A frame takes some 100 ms on a laptop: to keep an interface smooth, read it
+in an isolate with `MrzRecognizer().read(image)` and hand the reading to
+`MrzScanner.addReading`. Nothing of the scanner is compiled into an
+application that does not import it.
 
 ## Read on arrival
 
@@ -273,6 +328,8 @@ server receiving `toJson()` gets the MRZ as text and cannot check DG1 again;
   Schema from ISO/IEC 39794-5 within modifications permitted in the
   relevant ISO/IEC standard.
 - RFC 5114 (DH groups), RFC 5652 (CMS), RFC 8017 (RSA).
+- ISO 1073-2, the OCR-B font. The templates and the classifier of the MRZ
+  scanner were made from Matthew Skala's OCR-B font, in the public domain.
 
 ## License
 

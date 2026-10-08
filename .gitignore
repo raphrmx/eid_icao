@@ -17,3 +17,8 @@ pubspec.lock
 
 # Points eid at the sibling checkout while both are developed together.
 pubspec_overrides.yaml
+
+# The synthetic documents and cells tool/mrz makes.
+__pycache__/
+*.pgm
+*.bin
